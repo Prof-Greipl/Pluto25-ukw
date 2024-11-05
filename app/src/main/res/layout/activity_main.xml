@@ -8,20 +8,11 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/mein_button"
-     />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="#FFEB3B"
-        android:gravity="center"
-        android:text="Hello Mobile Business" />
+        android:text="To be implemented" />
 
 </LinearLayout>
