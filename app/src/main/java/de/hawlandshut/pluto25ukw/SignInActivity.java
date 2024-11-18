@@ -35,10 +35,14 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         mEMail = findViewById( R.id.sign_in_email);
         mPassword = findViewById( R.id.sign_in_password);
         mButtonSignIn = findViewById( R.id.sign_in_button_sign_in);
+
+        // TODO: Name der Variable besser: R.id.sign_in_button_reset_password
         mButtonResetPassword = findViewById( R.id.sign_in_reset_password);
         mButtonCreateAccount = findViewById( R.id.sign_in_button_create_account);
 
         mButtonSignIn.setOnClickListener( this );
+        mButtonResetPassword.setOnClickListener( this );
+        mButtonCreateAccount.setOnClickListener( this );
     }
 
     @Override
@@ -46,6 +50,14 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         int i = view.getId();
         if (i == R.id.sign_in_button_sign_in){
             Toast.makeText(getApplicationContext(), "Your pressed SignIn", Toast.LENGTH_LONG).show();
+        }
+
+        if (i == R.id.sign_in_reset_password){
+            Toast.makeText(getApplicationContext(), "Your pressed Reset Password", Toast.LENGTH_LONG).show();
+        }
+
+        if (i == R.id.sign_in_button_create_account){
+            Toast.makeText(getApplicationContext(), "Your pressed Create Account", Toast.LENGTH_LONG).show();
         }
     }
 }

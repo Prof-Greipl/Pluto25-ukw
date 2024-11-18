@@ -42,6 +42,11 @@
         android:layout_height="wrap_content"
         android:text="Pls. enter valid email to receive a password reset mail." />
 
+    <Space
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
     <Button
         android:id="@+id/sign_in_button_create_account"
         android:layout_width="match_parent"
