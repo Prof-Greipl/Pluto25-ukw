@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    tools:context=".ManageAccountActivity">
+
+    <TextView
+        android:id="@+id/manage_account_line_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="You should never see this!" />
+
+    <TextView
+        android:id="@+id/manage_account_line_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="You should never see this!" />
+
+    <TextView
+        android:id="@+id/manage_account_line_verified"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="You should never see this!" />
+
+    <Button
+        android:id="@+id/manage_account_button_sign_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign Out" />
+
+    <Button
+        android:id="@+id/manage_account_button_send_activation_mail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send Activation Mail" />
+
+    <Space
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="For security reasons please enter your password to delete the account. Deletion cannot be undone."
+        />
+
+    <EditText
+        android:id="@+id/manage_account_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/manage_account_button_delete_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FF5722"
+        android:text="Delete Account" />
+</LinearLayout>

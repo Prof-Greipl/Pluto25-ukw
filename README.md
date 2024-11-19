@@ -12,3 +12,8 @@ Wir haben Abschnitt 9.3 begonnen (exakten Stand siehe entsprechenden Commit). Bi
 - die onCLick() Methode und die 
 - Registrierung des Listeners abschließen (incl. Toast)
 
+## T3 (19.11.2024)
+Wir haben Abschnitt 9 abgeschlossen. Bis zum nächsten Termin noch implementieren
+
+- Create Account Activity (9.7)
+- PostActivity (9.8)

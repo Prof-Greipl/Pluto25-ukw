@@ -14,10 +14,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import de.hawlandshut.pluto25ukw.test.TestData;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "xxx MainActivity";
+
+    RecyclerView mRecyclerView;
+    CustomAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,15 +36,24 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        Log.d(TAG, "onCreate called.");
-        Toast.makeText(getApplicationContext(), "App started", Toast.LENGTH_LONG).show();
+
+        //Adapter einstellen
+        mAdapter = new CustomAdapter();
+
+        // TODO: Adapter mit Testdaten füllen - später raus!
+        mAdapter.mPostList = TestData.createPostList(3);
+
+        mRecyclerView = findViewById( R.id.recycler_view);
+        mRecyclerView.setLayoutManager( new LinearLayoutManager( this ));
+        mRecyclerView.setAdapter( mAdapter);
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Intent intent = new Intent(getApplication(), SignInActivity.class);
-        startActivity(intent);
+        // Intent intent = new Intent(getApplication(), ManageAccountActivity.class);
+        // startActivity(intent);
         Log.d(TAG, "onStart called.");
     }
 
