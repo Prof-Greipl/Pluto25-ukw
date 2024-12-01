@@ -1,5 +1,6 @@
 package de.hawlandshut.pluto25ukw;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -58,6 +59,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         if (i == R.id.sign_in_button_create_account){
             Toast.makeText(getApplicationContext(), "Your pressed Create Account", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getApplication(), CreateAccountActivity.class);
+            startActivity(intent);
         }
     }
 }

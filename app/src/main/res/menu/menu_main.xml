@@ -7,4 +7,8 @@
     <item
         android:title="Manage Account"
         android:id="@+id/menu_main_manage_account"/>
+
+    <item
+        android:title="Sign In"
+        android:id="@+id/menu_main_sign_in"/>
 </menu>

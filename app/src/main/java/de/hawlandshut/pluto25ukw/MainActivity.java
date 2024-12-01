@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        //
         // Intent intent = new Intent(getApplication(), ManageAccountActivity.class);
         // startActivity(intent);
         Log.d(TAG, "onStart called.");
@@ -75,6 +76,11 @@ public class MainActivity extends AppCompatActivity {
         if ( i == R.id.menu_main_manage_account){
             Toast.makeText(getApplicationContext(), "Your pressed Manage Account", Toast.LENGTH_LONG).show();
             return true;
+        }
+
+        if (item.getItemId() == R.id.menu_main_sign_in) {
+            Intent intent = new Intent(getApplication(), SignInActivity.class);
+            startActivity(intent);
         }
 
         return true;
