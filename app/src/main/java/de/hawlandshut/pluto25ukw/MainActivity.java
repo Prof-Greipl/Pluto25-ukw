@@ -83,6 +83,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
+        if (item.getItemId() == R.id.menu_main_post) {
+            Intent intent = new Intent(getApplication(), PostActivity.class);
+            startActivity(intent);
+        }
+
         return true;
     }
 
