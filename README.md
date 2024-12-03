@@ -17,3 +17,6 @@ Wir haben Abschnitt 9 abgeschlossen. Bis zum nächsten Termin noch implementiere
 
 - Create Account Activity (9.7)
 - PostActivity (9.8)
+
+## T4 (03.12.2024)
+Wir sind bis incl. 11.4 gekommen.

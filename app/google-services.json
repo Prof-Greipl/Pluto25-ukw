@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1027904504775",
+    "project_id": "pluto25-ukw-neu",
+    "storage_bucket": "pluto25-ukw-neu.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1027904504775:android:6969d72ea5a8470af48fe2",
+        "android_client_info": {
+          "package_name": "de.hawlandshut.pluto25ukw"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADQt8MBO7PQ93kzlndsJft07go3F_flDU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
