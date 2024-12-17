@@ -20,3 +20,9 @@ Wir haben Abschnitt 9 abgeschlossen. Bis zum nächsten Termin noch implementiere
 
 ## T4 (03.12.2024)
 Wir sind bis incl. 11.4 gekommen.
+
+## T5 (17.12.2024)
+Wir sind bis incl. 13.3 gekommen. Homework: SendVerificationMail in ManageAccountAct. 
+(http://greipl.haw-landshut.de/pluto25/updating-activities-with-authentication.html#update-dosendverificationmail)
+
+

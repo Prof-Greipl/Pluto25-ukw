@@ -22,6 +22,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hawlandshut.pluto25ukw.test.TestData;
 
@@ -34,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TEST_PASSWORD ="123456";
 
     FirebaseAuth mAuth;
+    FirebaseFirestore mDb;
     RecyclerView mRecyclerView;
     CustomAdapter mAdapter;
 
@@ -49,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mAuth = FirebaseAuth.getInstance();
+        mDb = FirebaseFirestore.getInstance();
 
         //Adapter einstellen
         mAdapter = new CustomAdapter();
@@ -65,9 +72,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //
-        // Intent intent = new Intent(getApplication(), ManageAccountActivity.class);
-        // startActivity(intent);
+        FirebaseUser user = mAuth.getCurrentUser();
+        if ( user == null){
+            // Kein User angemeldet
+            Intent intent = new Intent(getApplication(), SignInActivity.class);
+            startActivity(intent);
+        }
         Log.d(TAG, "onStart called.");
     }
 
@@ -95,6 +105,20 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
+        if ( i == R.id.menu_main_test_write){
+
+
+            Map<String, Object> testMap = new HashMap<>();
+            testMap.put("Neue", "datastring");
+            /*
+            testMap.put("key_bool", false);
+            testMap.put("key_float", 1.5);
+            testMap.put("key_int", 1);
+            testMap.put("key_date", new Date());
+*/
+            mDb.collection("posts").add( testMap );
+            return true;
+        }
         if ( i == R.id.menu_create_user){
             doCreateUser(TEST_MAIL, TEST_PASSWORD);
             return true;
@@ -130,14 +154,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if ( i == R.id.menu_main_manage_account){
-            Toast.makeText(getApplicationContext(), "Your pressed Manage Account", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getApplication(), ManageAccountActivity.class);
+            startActivity(intent);
             return true;
         }
-
 
         if (item.getItemId() == R.id.menu_main_post) {
             Intent intent = new Intent(getApplication(), PostActivity.class);
             startActivity(intent);
+            return true;
         }
 
         return true;

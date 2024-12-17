@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:title="Post"
+        android:id="@+id/menu_main_post"  />
+
+    <item
+        android:title="Manage Account"
+        android:id="@+id/menu_main_manage_account"/>
+    <item
+        android:title="Test Write"
+        android:id="@+id/menu_main_test_write"/>
+
     <item android:title="Test Auth Status"
         android:id="@+id/menu_test_auth"/>
 
@@ -22,16 +33,10 @@
     <item android:title="Test Sign Out"
         android:id="@+id/menu_sign_out"/>
 
-    <item
-        android:title="Post"
-        android:id="@+id/menu_main_post"
-        />
 
     <item
         android:title="Help"
         android:id="@+id/menu_main_help"/>
-    <item
-        android:title="Manage Account"
-        android:id="@+id/menu_main_manage_account"/>
+
 
 </menu>

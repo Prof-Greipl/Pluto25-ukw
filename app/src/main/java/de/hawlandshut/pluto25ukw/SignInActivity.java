@@ -8,13 +8,21 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener{
 
+    FirebaseAuth mAuth;
     // 3.1 UI-Variablen deklarieren
     EditText mEMail;
     EditText mPassword;
@@ -32,6 +40,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        mAuth = FirebaseAuth.getInstance();
+
         // 3.2 UI-Variablen Initialisieren
         mEMail = findViewById( R.id.sign_in_email);
         mPassword = findViewById( R.id.sign_in_password);
@@ -44,23 +55,90 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         mButtonSignIn.setOnClickListener( this );
         mButtonResetPassword.setOnClickListener( this );
         mButtonCreateAccount.setOnClickListener( this );
+
+        // TODO: Prefill for testing - remove later!
+        mEMail.setText("fhgreipl@gmail.com");
+        mPassword.setText( "123456");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null){
+            finish();
+        }
+
     }
 
     @Override
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.sign_in_button_sign_in){
-            Toast.makeText(getApplicationContext(), "Your pressed SignIn", Toast.LENGTH_LONG).show();
+            doSignIn();
         }
 
         if (i == R.id.sign_in_reset_password){
-            Toast.makeText(getApplicationContext(), "Your pressed Reset Password", Toast.LENGTH_LONG).show();
+            doResetPassword();
         }
 
         if (i == R.id.sign_in_button_create_account){
-            Toast.makeText(getApplicationContext(), "Your pressed Create Account", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getApplication(), CreateAccountActivity.class);
             startActivity(intent);
+        }
+    }
+
+    private void doResetPassword() {
+        String email = mEMail.getText().toString();
+        // Validation: email ok?
+        mAuth.sendPasswordResetEmail( email)
+                .addOnCompleteListener(this,
+                        new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()){
+                                    // TODO: Message anpassen!
+                                    Toast.makeText(getApplicationContext(), "Mail sent.",
+                                            Toast.LENGTH_LONG).show();
+                                }
+                                else {
+                                    // TODO: Message anpassen!
+                                    Toast.makeText(getApplicationContext(),
+                                            "Sending mail failed : "
+                                                    + task.getException().getMessage(),
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+
+    }
+
+    private void doSignIn() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            // This should never happen
+            return;
+        } else {
+            String email = mEMail.getText().toString();
+            String password = mPassword.getText().toString();
+            // Validations...
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this,
+                            new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(getApplicationContext(), "Your are signed in!",
+                                                Toast.LENGTH_LONG).show();
+                                        finish();
+                                    } else {
+                                        Toast.makeText(getApplicationContext(),
+                                                "Sign in failed : " + task.getException().getMessage(),
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+
         }
     }
 }
