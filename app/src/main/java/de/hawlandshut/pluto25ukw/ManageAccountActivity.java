@@ -134,7 +134,28 @@ public class ManageAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     private void doSendActivationMail() {
-        Toast.makeText(getApplicationContext(), "Your pressed Send ActMail", Toast.LENGTH_LONG).show();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user == null){
+            finish(); // This should never happen.
+        } else{
+            user.sendEmailVerification()
+                    .addOnCompleteListener(this,
+                            new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(getApplicationContext(),
+                                                "Verification E-Mail sent",
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                    else {
+                                        Toast.makeText(getApplicationContext(),
+                                                "Verification sending failed : " + task.getException().getMessage(),
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+        }
     }
 
     private void doSignOut() {
