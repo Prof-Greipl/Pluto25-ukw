@@ -25,4 +25,5 @@ Wir sind bis incl. 11.4 gekommen.
 Wir sind bis incl. 13.3 gekommen. Homework: SendVerificationMail in ManageAccountAct. 
 (http://greipl.haw-landshut.de/pluto25/updating-activities-with-authentication.html#update-dosendverificationmail)
 
-
+## T6 (14.01.2025)
+Kapitel 13 wurde abgeschlossen.
