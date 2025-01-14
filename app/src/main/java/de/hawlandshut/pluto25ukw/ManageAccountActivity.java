@@ -62,10 +62,6 @@ public class ManageAccountActivity extends AppCompatActivity implements View.OnC
         mButtonSignOut.setOnClickListener( this );
         mButtonDeleteAccount.setOnClickListener( this );
 
-        // TODO: Prefill for testing - remove later!
-        mPassword.setText("123456");
-        mLineId.setText("User Id :  acasaert");
-
     }
 
     @Override

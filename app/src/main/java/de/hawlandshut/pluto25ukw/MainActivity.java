@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -22,12 +23,19 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hawlandshut.pluto25ukw.model.Post;
 import de.hawlandshut.pluto25ukw.test.TestData;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     FirebaseFirestore mDb;
+    ListenerRegistration mListenerRegistration;
+
     RecyclerView mRecyclerView;
     CustomAdapter mAdapter;
 
@@ -60,12 +70,10 @@ public class MainActivity extends AppCompatActivity {
         //Adapter einstellen
         mAdapter = new CustomAdapter();
 
-        // TODO: Adapter mit Testdaten füllen - später raus!
-        mAdapter.mPostList = TestData.createPostList(3);
-
         mRecyclerView = findViewById( R.id.recycler_view);
         mRecyclerView.setLayoutManager( new LinearLayoutManager( this ));
         mRecyclerView.setAdapter( mAdapter);
+
 
     }
 
@@ -74,11 +82,57 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser user = mAuth.getCurrentUser();
         if ( user == null){
+            mAdapter.mPostList.clear();
+            if ( mListenerRegistration != null){
+                mListenerRegistration.remove();
+                mListenerRegistration = null;
+                Log.d(TAG, "Listener removed...");
+            }
             // Kein User angemeldet
             Intent intent = new Intent(getApplication(), SignInActivity.class);
             startActivity(intent);
+        } else {
+            // Listener erzeugen
+            if (mListenerRegistration == null) {
+                Log.d(TAG, "Listerner created...");
+                mListenerRegistration = createMyEventListener();
+            }
         }
         Log.d(TAG, "onStart called.");
+    }
+
+    ListenerRegistration createMyEventListener(){
+        // Step 1: Create query
+        Query query = mDb.collection("posts")
+                .orderBy("createdAt", Query.Direction.DESCENDING)
+                .limit(5);
+
+        // Step 2; Define, how you react to updates from the listener
+        EventListener<QuerySnapshot> listener;
+        listener = new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException error) {
+                // snaphot ist eine List von documents
+                if (error != null){
+                    return; // This should not happen (a reason might be missing rights to access firestore)
+                }
+
+                // Wir haben eine neue Liste (snapshot) from docs von Firestore erhalten
+                // und wollen diese Liste anzeigen, also..
+
+                // ... löschen alle Elemente der Liste
+                mAdapter.mPostList.clear();
+
+                for (  QueryDocumentSnapshot doc : snapshot ){
+                    Post post = Post.fromDocument( doc );
+                    mAdapter.mPostList.add( post );
+                    Log.d(TAG, doc.getId() + " Email " + doc.get("email"));
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+        };
+
+        return query.addSnapshotListener( listener ) ;
     }
 
     @Override
@@ -91,67 +145,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int i = item.getItemId();
-
-        if( i == R.id.menu_test_auth){
-            FirebaseUser user = mAuth.getCurrentUser();
-            if (user == null){
-                Toast.makeText(getApplicationContext(),
-                        "No user authenticated.", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(getApplicationContext(),
-                        "User auth: " + user.getEmail() + "(" + user.isEmailVerified() +")",
-                        Toast.LENGTH_LONG).show();
-            }
-            return true;
-        }
-
-        if ( i == R.id.menu_main_test_write){
-
-
-            Map<String, Object> testMap = new HashMap<>();
-            testMap.put("Neue", "datastring");
-            /*
-            testMap.put("key_bool", false);
-            testMap.put("key_float", 1.5);
-            testMap.put("key_int", 1);
-            testMap.put("key_date", new Date());
-*/
-            mDb.collection("posts").add( testMap );
-            return true;
-        }
-        if ( i == R.id.menu_create_user){
-            doCreateUser(TEST_MAIL, TEST_PASSWORD);
-            return true;
-        }
-
-        if ( i == R.id.menu_sign_out){
-            mAuth.signOut();
-            Toast.makeText(getApplicationContext(), "You are signed SignOut", Toast.LENGTH_LONG).show();
-            return true;
-        }
-
-        if (i == R.id.menu_delete){
-            doDeleteUser();
-        }
-        if ( i == R.id.menu_main_help){
-            Toast.makeText(getApplicationContext(), "Your pressed Help", Toast.LENGTH_LONG).show();
-            return true;
-        }
-
-        if (i == R.id.menu_sign_in){
-            doSignIn( TEST_MAIL, TEST_PASSWORD);
-            return true;
-        }
-
-        if (i == R.id.menu_verification_mail){
-            doSendVerificationMail();
-            return true;
-        }
-
-        if (i == R.id.menu_password_reset_email){
-            doSendPasswordResetEmail( TEST_MAIL);
-            return true;
-        }
 
         if ( i == R.id.menu_main_manage_account){
             Intent intent = new Intent(getApplication(), ManageAccountActivity.class);

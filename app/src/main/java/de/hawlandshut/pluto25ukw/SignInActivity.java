@@ -56,9 +56,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         mButtonResetPassword.setOnClickListener( this );
         mButtonCreateAccount.setOnClickListener( this );
 
-        // TODO: Prefill for testing - remove later!
-        mEMail.setText("fhgreipl@gmail.com");
-        mPassword.setText( "123456");
     }
 
     @Override

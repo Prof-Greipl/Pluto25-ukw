@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import de.hawlandshut.pluto25ukw.model.Post;
 
 public class CustomAdapter extends RecyclerView.Adapter{
-    public ArrayList<Post> mPostList;
+    public ArrayList<Post> mPostList = new ArrayList<Post>();
 
     @NonNull
     @Override
